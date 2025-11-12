@@ -38,7 +38,7 @@ public class Conta {
     public void debitar(BigDecimal valor) {
         validarValorPositivo(valor);
         if (valor.compareTo(this.saldo) > 0) {
-            throw new RuntimeException("Saldo insuficiente para débito");
+            throw new br.com.infnet.banco.exception.SaldoInsuficienteException();
         }
         this.saldo = this.saldo.subtract(valor);
     }
@@ -62,12 +62,12 @@ public class Conta {
                 ╭─────┬──────────────────────┬───────────────╮
                 │ ID  │ Titular              │ Saldo         │
                 ├─────┼──────────────────────┼───────────────┤
-                │ %-3d │ %-20s │ R$ %-10.2f │
+                │ %-3d │ %-20s │ R$ %-10s │
                 ╰─────┴──────────────────────┴───────────────╯
                 """,
                 id,
                 titular,
-                saldo.doubleValue()
+                String.format("%.2f", saldo)
         );
     }
 }

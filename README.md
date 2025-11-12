@@ -72,9 +72,12 @@ CRUD-TP1/
 │   │       ├── application-mysql.properties
 │   │       └── data.sql
 │   └── test/java/br/com/infnet/banco/
+│       ├── CrudTp1ApplicationTests.java
 │       ├── service/ContaServiceTest.java
-│       ├── repository/ContaRepositoryTest.java
-│       └── property/ContaPropertyTest.java
+│       └── property/
+│           ├── ContaPropertyTest.java
+│           ├── ContaOperacoesAvancadasPropertyTest.java
+│           └── ContaLimitesEParticoesTest.java
 │
 ├── pom.xml
 └── README.md
@@ -127,27 +130,70 @@ E configure `application-mysql.properties` conforme suas credenciais.
 
 ## 🧪 Testes Automatizados
 
-### 📘 Unitários (JUnit 5)
-Verificam comportamentos de serviço e repositório:
+O projeto conta com **40 testes automatizados** divididos em diferentes categorias:
+
+### 📘 Testes Unitários (JUnit 5 + Mockito)
+- **ContaServiceTest** (7 testes): Testa a camada de serviço com mocks
+- **CrudTp1ApplicationTests** (1 teste): Valida inicialização do contexto Spring
+
+### 📗 Testes Baseados em Propriedades (Jqwik)
+- **ContaPropertyTest** (4 testes): Validações básicas com 1000+ iterações
+  - Saldo sempre positivo
+  - Rejeição de valores inválidos
+  - Crédito aumenta saldo
+  - Débito nunca deixa saldo negativo
+
+- **ContaOperacoesAvancadasPropertyTest** (7 testes): Propriedades matemáticas avançadas
+  - Comutatividade de créditos
+  - Associatividade de operações
+  - Elemento neutro (identidade)
+  - Reversibilidade (crédito + débito)
+  - Invariante de saldo não-negativo
+  - Soma correta de múltiplos créditos
+  - Precisão decimal mantida
+
+### 📊 Testes de Limites e Partições (BVA + Equivalence Partitioning)
+- **ContaLimitesEParticoesTest** (21 testes organizados em @Nested):
+  - **LimitesDeSaldoInicial** (4 testes): On-points e off-points
+  - **ParticoesDeCredito** (5 testes): Valores pequenos, médios, grandes, zero, negativos
+  - **ParticoesDeDebito** (5 testes): Menor que saldo, igual, maior, zero, negativo
+  - **LimitesDeOperacoesSequenciais** (4 testes): Sequências de operações
+  - **ValidacaoDeTitular** (3 testes): Nomes válidos
+
+### ▶️ Executar Todos os Testes
 ```bash
 mvn test
 ```
 
-### 📗 Propriedades (Jqwik)
-Validação com geração automática de dados, garantindo robustez:
-```bash
-mvn test -Dtest=ContaPropertyTest
-```
-
-### 📙 Cobertura (JaCoCo)
-Gera relatório de cobertura mínima exigida (80%+):
+### 📙 Relatório de Cobertura (JaCoCo)
+Gera relatório de cobertura de código:
 ```bash
 mvn verify
 ```
 
-Relatório disponível em:
+**Visualizar relatório HTML:**
+```bash
+# Windows
+start target\site\jacoco\index.html
+
+# Linux/Mac
+open target/site/jacoco/index.html
+```
+
+Ou navegue manualmente até:
 ```
 target/site/jacoco/index.html
+```
+
+O relatório mostra:
+- **Cobertura por pacote/classe/método** (linhas verdes = cobertas, vermelhas = não cobertas)
+- **Métricas**: Instructions, Branches, Lines, Methods, Classes
+- **Formatos**: HTML (interativo), XML, CSV
+
+### 🎯 Resultado dos Testes
+```
+Tests run: 40, Failures: 0, Errors: 0, Skipped: 0
+BUILD SUCCESS
 ```
 
 ---

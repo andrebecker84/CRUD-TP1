@@ -31,8 +31,11 @@ public class ContaService {
     }
 
     public Conta alterarSaldo(Long id, BigDecimal novoSaldo) {
+        if (novoSaldo == null || novoSaldo.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Saldo deve ser maior que zero");
+        }
         Conta conta = buscarPorId(id);
-        conta.setSaldo(novoSaldo);
+        conta.setSaldo(novoSaldo.setScale(2, java.math.RoundingMode.HALF_UP));
         return contaRepository.save(conta);
     }
 
@@ -60,10 +63,10 @@ public class ContaService {
         System.out.println("├──────┼──────────────────────┼─────────────────┤");
         contas.forEach(conta ->
                 System.out.printf(
-                        "│ %-4d │ %-20s │ R$ %-12.2f │%n",
+                        "│ %-4d │ %-20s │ R$ %-12s │%n",
                         conta.getId(),
                         conta.getTitular(),
-                        conta.getSaldo().doubleValue()   // <--- aqui também
+                        String.format("%.2f", conta.getSaldo())
                 )
         );
         System.out.println("╰──────┴──────────────────────┴─────────────────╯");

@@ -148,6 +148,10 @@
                 <version>3.5.1</version>
                 <configuration>
                     <useModulePath>false</useModulePath>
+                    <!-- Habilita carregamento dinamico de agentes e desabilita class sharing -->
+                    <argLine>-XX:+EnableDynamicAgentLoading -Xshare:off @{argLine}</argLine>
+                    <!-- Configuracao para evitar warnings do jqwik -->
+                    <forkNode implementation="org.apache.maven.plugin.surefire.extensions.SurefireForkNodeFactory"/>
                 </configuration>
             </plugin>
 

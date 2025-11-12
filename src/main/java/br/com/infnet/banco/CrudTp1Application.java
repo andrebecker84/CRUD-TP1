@@ -15,7 +15,7 @@ public class CrudTp1Application implements CommandLineRunner {
 
     private final ContaService contaService;
 
-    public CrudTp1Application(ContaService contaService) {
+    public CrudTp1Application(@org.springframework.context.annotation.Lazy ContaService contaService) {
         this.contaService = contaService;
     }
 
@@ -26,6 +26,11 @@ public class CrudTp1Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+        // Verifica se o CLI deve ser executado (usado para desabilitar durante testes)
+        if (args.length > 0 && "skip-cli".equals(args[0])) {
+            return;
+        }
+
         System.out.println("╭───────────────────────────────────────────────╮");
         System.out.println("│     Bem-vindo ao Sistema Bancário Becker!     │");
         System.out.println("│   Gerenciamento de Contas Bancárias via CLI.  │");
@@ -64,10 +69,10 @@ public class CrudTp1Application implements CommandLineRunner {
                 default -> System.out.println("Opção inválida.");
             }
         } catch (ContaNaoEncontradaException e) {
-            // aqui a gente trata e não deixa o app cair
+            // tratamento para não deixar a aplicacao cair
             System.out.println("⚠ " + e.getMessage());
         } catch (RuntimeException e) {
-            // fallback pra qualquer outro erro de runtime
+            // fallback para qualquer outro erro de runtime
             System.out.println("Erro ao processar a operação: " + e.getMessage());
         }
     }

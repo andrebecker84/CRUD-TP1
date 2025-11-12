@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 class ContaPropertyTest {
 
-    /**
+    /***********************************************************************************************
      * Garante que qualquer conta criada com saldo positivo
      * mantenha o saldo maior que zero após a inicialização.
      */
@@ -21,7 +21,7 @@ class ContaPropertyTest {
         );
     }
 
-    /**
+    /***********************************************************************************************
      * Garante que o construtor rejeita saldos negativos ou nulos.
      */
     @Property
@@ -33,7 +33,7 @@ class ContaPropertyTest {
         );
     }
 
-    /**
+    /***********************************************************************************************
      * Garante que operações de crédito aumentam o saldo.
      */
     @Property
@@ -43,7 +43,7 @@ class ContaPropertyTest {
         Assertions.assertTrue(conta.getSaldo().compareTo(BigDecimal.valueOf(100)) > 0);
     }
 
-    /**
+    /***********************************************************************************************
      * Garante que o débito nunca permita saldo negativo.
      */
     @Property
@@ -53,11 +53,12 @@ class ContaPropertyTest {
             conta.debitar(valor);
             Assertions.assertTrue(conta.getSaldo().compareTo(BigDecimal.ZERO) >= 0);
         } else {
-            Assertions.assertThrows(RuntimeException.class, () -> conta.debitar(valor));
+            Assertions.assertThrows(br.com.infnet.banco.exception.SaldoInsuficienteException.class,
+                () -> conta.debitar(valor));
         }
     }
 
-    /**
+    /***********************************************************************************************
      * Geradores customizados
      */
     @Provide
