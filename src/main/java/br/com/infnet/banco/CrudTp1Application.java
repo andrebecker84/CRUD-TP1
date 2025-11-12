@@ -26,9 +26,10 @@ public class CrudTp1Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        System.out.println("=== Bem-vindo ao Sistema Bancário TP1 ===");
-        System.out.println("Gerenciamento de contas bancárias via CLI");
-        System.out.println("-----------------------------------------");
+        System.out.println("╭───────────────────────────────────────────────╮");
+        System.out.println("│     Bem-vindo ao Sistema Bancário Becker!     │");
+        System.out.println("│   Gerenciamento de Contas Bancárias via CLI.  │");
+        System.out.println("╰───────────────────────────────────────────────╯");
 
         try (Scanner scanner = new Scanner(System.in)) {
             int opcao;
@@ -41,13 +42,14 @@ public class CrudTp1Application implements CommandLineRunner {
     }
 
     private void exibirMenu() {
-        System.out.println();
-        System.out.println("1 - Listar contas");
-        System.out.println("2 - Consultar conta por ID");
-        System.out.println("3 - Criar nova conta");
-        System.out.println("4 - Alterar saldo da conta");
-        System.out.println("5 - Excluir conta");
-        System.out.println("0 - Sair");
+        System.out.println("╭───────────────────────────────────────────────╮");
+        System.out.println("│ 1 - Listar contas                             │");
+        System.out.println("│ 2 - Consultar conta por ID                    │");
+        System.out.println("│ 3 - Criar nova conta                          │");
+        System.out.println("│ 4 - Alterar saldo da conta                    │");
+        System.out.println("│ 5 - Excluir conta                             │");
+        System.out.println("│ 0 - Sair                                      │");
+        System.out.println("╰───────────────────────────────────────────────╯");
     }
 
     private void tratarOpcao(Scanner scanner, int opcao) {

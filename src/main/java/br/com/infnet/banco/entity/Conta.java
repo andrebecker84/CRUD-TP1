@@ -25,8 +25,34 @@ public class Conta {
     private BigDecimal saldo;
 
     public Conta(String titular, BigDecimal saldo) {
+        validarSaldoInicial(saldo);
         this.titular = titular;
-        this.saldo = saldo;
+        this.saldo = saldo.setScale(2);
+    }
+
+    public void creditar(BigDecimal valor) {
+        validarValorPositivo(valor);
+        this.saldo = this.saldo.add(valor);
+    }
+
+    public void debitar(BigDecimal valor) {
+        validarValorPositivo(valor);
+        if (valor.compareTo(this.saldo) > 0) {
+            throw new RuntimeException("Saldo insuficiente para débito");
+        }
+        this.saldo = this.saldo.subtract(valor);
+    }
+
+    private void validarSaldoInicial(BigDecimal saldoInicial) {
+        if (saldoInicial == null || saldoInicial.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Saldo inicial deve ser maior que zero");
+        }
+    }
+
+    private void validarValorPositivo(BigDecimal valor) {
+        if (valor == null || valor.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Valor deve ser positivo");
+        }
     }
 
     @Override
